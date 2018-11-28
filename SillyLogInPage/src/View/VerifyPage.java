@@ -9,20 +9,20 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VerifyPage {
 
     private Button bt1,bt2,bt3,bt4,exitBT;
     private VBox layout;
     private Scene scene;
-    private Set<Button> st;
-
+    private List<Button> st;
+    
     public VerifyPage(){
         //Image img1 = new Image("file:pill1.png");
         Label label = new Label("Security Check\nWhich of the following medicines is for headache?");
-        st = new HashSet<>();
+        st = new ArrayList<>();
         Image img1 = new Image(getClass().getResourceAsStream("p1.jpg"));
         Image img2 = new Image(getClass().getResourceAsStream("p2.png"));
         Image img3 = new Image(getClass().getResourceAsStream("p3.jpg"));
@@ -82,7 +82,7 @@ public class VerifyPage {
         return exitBT;
     }
 
-    public Set<Button> getSt() {
+    public List<Button> getButtonList() {
         return st;
     }
 }

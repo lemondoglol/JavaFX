@@ -5,20 +5,17 @@ import View.ExitConfirmPage;
 import View.LogInPage;
 import View.MainView;
 import View.VerifyPage;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-
-import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Controller {
-    LogInPage logInPage;
-    VerifyPage verifyPage;
-    MainView mainView;
-    Stage window;
-    ExitConfirmPage exitConfirmPage;
-    DB db;
+    private LogInPage logInPage;
+    private VerifyPage verifyPage;
+    private MainView mainView;
+    private Stage window;
+    private ExitConfirmPage exitConfirmPage;
+    private DB db;
+    private boolean passwordEntered;
 
 
     public Controller(MainView view, DB db){
@@ -33,6 +30,7 @@ public class Controller {
             String password = logInPage.getPasswordPF().getText();
             String name = logInPage.getUserNameTF().getText();
             if(name.equals("Ryan") && password.equals("123")){
+            	this.passwordEntered = true;
                 mainView.setCurrentScene(exitConfirmPage.getScene());
             }else{
                 logInPage.getWrongPrompt().setVisible(true);
@@ -40,21 +38,6 @@ public class Controller {
         });
 
         logInPage.getForgotBT().setOnAction(e->{
-            Map<String, Boolean> map = db.getQuestionLibrary().get("st1");
-            Set<Button> st = verifyPage.getSt();
-            List<String> lst = new ArrayList<>();
-            for(String s : map.keySet()){
-                lst.add(s);
-            }
-            int i = 0;
-            Collections.shuffle(lst);
-            for(Button bt : st){
-                Image img = new Image(getClass().getResourceAsStream(lst.get(i)));
-                bt.setGraphic(new ImageView(img));
-                if(map.get(lst.get(i)) == true) db.setCorrectAnswer(i);
-                i++;
-            }
-
             mainView.setCurrentScene(verifyPage.getScene());
         });
 
@@ -62,11 +45,29 @@ public class Controller {
         verifyPage.getExitBT().setOnAction(e -> {
             mainView.setCurrentScene(exitConfirmPage.getScene());
         });
-
-
+        // AI verify 
+        for(int i = 0; i < this.verifyPage.getButtonList().size(); i++) {
+        	if(i == this.db.getCorrectAnswer()) {
+        		this.verifyPage.getButtonList().get(i).setOnAction(e -> {
+        			System.out.println("Amazing!");
+        			try {
+						TimeUnit.SECONDS.sleep(2);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+        			mainView.setCurrentScene(exitConfirmPage.getScene());
+        		});
+        	}else {
+        		this.verifyPage.getButtonList().get(i).setOnAction(e -> {
+        			System.out.println("You silly silly lol!");
+        		});
+        	}
+        }
+       
         exitConfirmPage.getNoBT().setOnMouseEntered(e->{
             exitConfirmPage.getNoBT().setText("Yes, Ryan is the best");
         });
+        
         exitConfirmPage.getNoBT().setOnMouseExited(e->{
             exitConfirmPage.getNoBT().setText("No, Ryan is not the best");
         });
@@ -79,7 +80,9 @@ public class Controller {
         });
 
         window.setOnCloseRequest(e->{
-            e.consume();
+        	if(this.passwordEntered == false) {
+        		e.consume();
+        	}
         });
 
     }

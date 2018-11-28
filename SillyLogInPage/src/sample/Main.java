@@ -21,9 +21,6 @@ public class Main extends Application {
         new Controller(mainView, db);
     }
 
-
-
-
     public static void main(String[] args) {
         launch(args);
     }
