@@ -6,7 +6,6 @@ import View.LogInPage;
 import View.MainView;
 import View.VerifyPage;
 import javafx.stage.Stage;
-import java.util.concurrent.TimeUnit;
 
 public class Controller {
     private LogInPage logInPage;
@@ -17,7 +16,6 @@ public class Controller {
     private DB db;
     private boolean passwordEntered;
 
-
     public Controller(MainView view, DB db){
         this.db = db;
         this.mainView = view;
@@ -25,6 +23,7 @@ public class Controller {
         window = view.getWindow();
         verifyPage = view.getVerifyPage();
         exitConfirmPage = new ExitConfirmPage();
+       
 
         logInPage.getLogInBT().setOnAction(e -> {
             String password = logInPage.getPasswordPF().getText();
@@ -38,6 +37,7 @@ public class Controller {
         });
 
         logInPage.getForgotBT().setOnAction(e->{
+        	verifyPage.updateButtonImage(this.db.getPictureList());
             mainView.setCurrentScene(verifyPage.getScene());
         });
 
@@ -50,11 +50,6 @@ public class Controller {
         	if(i == this.db.getCorrectAnswer()) {
         		this.verifyPage.getButtonList().get(i).setOnAction(e -> {
         			System.out.println("Amazing!");
-        			try {
-						TimeUnit.SECONDS.sleep(2);
-					} catch (InterruptedException e1) {
-						e1.printStackTrace();
-					}
         			mainView.setCurrentScene(exitConfirmPage.getScene());
         		});
         	}else {

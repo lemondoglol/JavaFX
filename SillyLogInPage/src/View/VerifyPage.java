@@ -17,12 +17,13 @@ public class VerifyPage {
     private Button bt1,bt2,bt3,bt4,exitBT;
     private VBox layout;
     private Scene scene;
-    private List<Button> st;
+    private List<Button> buttonList;
+    private List<String> pictureList;
     
     public VerifyPage(){
         //Image img1 = new Image("file:pill1.png");
         Label label = new Label("Security Check\nWhich of the following medicines is for headache?");
-        st = new ArrayList<>();
+        buttonList = new ArrayList<>();
         Image img1 = new Image(getClass().getResourceAsStream("p1.jpg"));
         Image img2 = new Image(getClass().getResourceAsStream("p2.png"));
         Image img3 = new Image(getClass().getResourceAsStream("p3.jpg"));
@@ -31,11 +32,10 @@ public class VerifyPage {
         bt2 = new Button();
         bt3 = new Button();
         bt4 = new Button();
-        st.add(bt1);
-        st.add(bt2);
-        st.add(bt3);
-        st.add(bt4);
-
+        buttonList.add(bt1);
+        buttonList.add(bt2);
+        buttonList.add(bt3);
+        buttonList.add(bt4);
         exitBT = new Button("Exit");
         bt1.setGraphic(new ImageView(img1));
         bt2.setGraphic(new ImageView(img2));
@@ -52,6 +52,13 @@ public class VerifyPage {
         layout.setSpacing(10);
         layout.getChildren().addAll(label, first, second, exitBT);
         scene = new Scene(layout, 400,350);
+    }
+    
+    public void updateButtonImage(List<String> lst) {
+    	for(int i = 0; i < lst.size(); i++) {
+    		Image img = new Image(getClass().getResourceAsStream(lst.get(i)));
+    		this.buttonList.get(i).setGraphic(new ImageView(img));
+    	}
     }
 
     public Button getBt1() {
@@ -83,6 +90,6 @@ public class VerifyPage {
     }
 
     public List<Button> getButtonList() {
-        return st;
+        return buttonList;
     }
 }
