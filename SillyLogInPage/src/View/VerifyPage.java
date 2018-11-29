@@ -18,10 +18,8 @@ public class VerifyPage {
     private VBox layout;
     private Scene scene;
     private List<Button> buttonList;
-    private List<String> pictureList;
     
     public VerifyPage(){
-        //Image img1 = new Image("file:pill1.png");
         Label label = new Label("Security Check\nWhich of the following medicines is for headache?");
         buttonList = new ArrayList<>();
         Image img1 = new Image(getClass().getResourceAsStream("p1.jpg"));
